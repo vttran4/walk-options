@@ -52,11 +52,11 @@ if st.button("🔥 Optimize!"):
             selected.append({
                 "Stock": stock,
                 "Contracts": qty,
-                "Collateral per": collateral[i],
-                "Premium per": premium[i],
+                "Collateral": collateral[i],
+                "Premium": premium[i],
+                "Total Collateral": collateral[i] * qty                
                 "Total Premium": premium[i] * qty,
-                "Total Collateral": collateral[i] * qty
             })
 
-    st.success(f"✅ Total Premium: ${total_premium} | 🔒 Collateral Used: ${total_collateral}")
+    st.success(f"✅  Total Premium: ${total_premium} | 🔒  Collateral  Used: ${total_collateral}")
     st.dataframe(pd.DataFrame(selected))
