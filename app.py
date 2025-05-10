@@ -40,6 +40,7 @@ collateral_limit = st.number_input("Total Available Collateral", value=10430, st
 # Step 3: Optimize
 if st.button("🚀 Step 3: Optimize!"):
     try:
+        df = df[~pd.isna(df["Collateral"])]
         stocks = df["Stock"].tolist()
         collateral = df["Collateral"].tolist()
         premium = df["Premium"].tolist()
