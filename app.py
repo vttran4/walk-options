@@ -5,7 +5,7 @@ from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpInteger, value
 st.set_page_config(page_title="💃 Options Optimizer", layout="centered")
 
 st.title("💃 Options Optimizer")
-st.caption("Maximize your premium potential while walking like the boss you are 👑")
+st.caption("Maximize your premium potential while walking 🎀")
 
 # Step 1: Upload or use default
 st.subheader("📤 Step 1: Upload XLSX or Use Template")
