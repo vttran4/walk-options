@@ -54,8 +54,8 @@ if st.button("🔥 Optimize!"):
                 "Contracts": qty,
                 "Collateral": collateral[i],
                 "Premium": premium[i],
-                "Total Collateral": collateral[i] * qty                
-                "Total Premium": premium[i] * qty,
+                "Total Collateral": collateral[i] * qty,             
+                "Total Premium": premium[i] * qty
             })
 
     st.success(f"✅  Total Premium: ${total_premium} | 🔒  Collateral  Used: ${total_collateral}")
