@@ -12,24 +12,26 @@ st.subheader("📤 Step 1: Upload CSV or Use Template")
 
 uploaded_file = st.file_uploader("Upload a CSV (columns: Stock, Collateral, Premium)", type=["csv"])
 
+# Load uploaded file or default data
 if uploaded_file:
     try:
-        df_uploaded = pd.read_csv(uploaded_file)
+        df = pd.read_csv(uploaded_file)
         st.success("✅ File uploaded successfully! Edit your table below 👇")
     except Exception as e:
         st.error(f"❌ Couldn't read file: {e}")
-        df_uploaded = pd.DataFrame(columns=["Stock", "Collateral", "Premium"])
+        df = pd.DataFrame(columns=["Stock", "Collateral", "Premium"])
 else:
     st.info("ℹ️ No file uploaded. You can edit this default table or upload your own.")
-    df_uploaded = pd.DataFrame({
+    df = pd.DataFrame({
         "Stock": ["TTD", "RIVN", "SOFI"],
         "Collateral": [7000, 1500, 1250],
         "Premium": [150, 40, 30]
     })
 
-# Step 1.5: Editable Table
+# Show editable table
 st.subheader("✏️ Step 1.5: Edit Your Options Table")
-df = st.data_editor(df_uploaded, num_rows="dynamic", use_container_width=True)
+df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
+
 
 # Step 2: Set Collateral Limit
 st.subheader("💰 Step 2: Set Your Collateral Limit")
