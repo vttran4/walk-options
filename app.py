@@ -59,7 +59,9 @@ if st.button("🚀 Step 3: Optimize!"):
             })
 
     if selected:
-        st.success(f"🎯 **Total Premium:** ${total_premium} &nbsp;&nbsp;&nbsp; 🔒 **Collateral Used:** ${total_collateral}")
+        st.success(f"""🎯 **Total Premium:** ${total_premium}
+         🔒 **Collateral Used:** ${total_collateral}""")
+        
         st.dataframe(pd.DataFrame(selected), use_container_width=True)
     else:
         st.warning("⚠️ No contracts fit within your collateral limit. Try adjusting your values.")
