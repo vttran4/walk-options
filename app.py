@@ -8,17 +8,17 @@ st.title("💃 Options Optimizer")
 st.caption("Maximize your premium potential while walking like the boss you are 👑")
 
 # Step 1: Upload or use default
-st.subheader("📤 Step 1: Upload CSV or Use Template")
+st.subheader("📤 Step 1: Upload XLSX or Use Template")
 
-uploaded_file = st.file_uploader("Upload a CSV (columns: Stock, Collateral, Premium)", type=["csv"])
+uploaded_file = st.file_uploader("Upload an Excel file (.xlsx) with columns: Stock, Collateral, Premium", type=["xlsx"])
 
 # Load uploaded file or default data
 if uploaded_file:
     try:
-        df = pd.read_csv(uploaded_file)
+        df = pd.read_excel(uploaded_file, engine = "openpyxl")
         st.success("✅ File uploaded successfully! Edit your table below 👇")
     except Exception as e:
-        st.error(f"❌ Couldn't read file: {e}")
+        st.error(f"❌ Couldn't read Excel file: {e}")
         df = pd.DataFrame(columns=["Stock", "Collateral", "Premium"])
 else:
     st.info("ℹ️ No file uploaded. You can edit this default table or upload your own.")
@@ -27,6 +27,7 @@ else:
         "Collateral": [7000, 1500, 1250],
         "Premium": [150, 40, 30]
     })
+
 
 # Show editable table
 st.subheader("✏️ Step 1.5: Edit Your Options Table")
