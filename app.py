@@ -59,10 +59,8 @@ if st.button("🚀 Step 3: Optimize!"):
             })
 
     if selected:
-        st.success(f"""
-        🎯 **Total Premium:** ${total_premium}
-        🔒 **Collateral Used:** ${total_collateral}
-        """)
+        st.success(f"""🎯 **Total Premium:** ${total_premium}""")
+        st.success(f"""💅 **Collateral Used:** ${total_collateral}""")
         
         st.dataframe(pd.DataFrame(selected), use_container_width=True)
     else:
