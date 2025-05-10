@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
-from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpBinary, value
+from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpInteger, value
 
 st.set_page_config(page_title="🤑 Options Optimizer", layout="centered")
 
 st.title("📈 Hot Girl Options Optimizer")
-st.caption("Pick the best combo of contracts to sell based on your premium goals 💅")
+st.caption("Find the best combo and how many contracts to sell to max your premiums 💅")
 
 # Editable table
 st.subheader("🔢 Input Stock Data")
@@ -27,11 +27,11 @@ if st.button("🔥 Optimize!"):
     collateral = df["Collateral"].tolist()
     premium = df["Premium"].tolist()
 
-    # Set up the LP problem
+    # Set up LP problem
     model = LpProblem("Maximize_Premium", LpMaximize)
-    x_vars = [LpVariable(f"x_{stock}", cat=LpBinary) for stock in stocks]
+    x_vars = [LpVariable(f"x_{stock}", lowBound=0, cat=LpInteger) for stock in stocks]
 
-    # Objective: Maximize total premium
+    # Objective: Maximize premium
     model += lpSum([x_vars[i] * premium[i] for i in range(len(stocks))]), "Total_Premium"
 
     # Constraint: Total collateral ≤ limit
@@ -45,14 +45,18 @@ if st.button("🔥 Optimize!"):
     total_collateral = 0
 
     for i, stock in enumerate(stocks):
-        if value(x_vars[i]) == 1:
+        qty = int(value(x_vars[i]))
+        if qty > 0:
+            total_premium += premium[i] * qty
+            total_collateral += collateral[i] * qty
             selected.append({
                 "Stock": stock,
-                "Collateral": collateral[i],
-                "Premium": premium[i]
+                "Contracts": qty,
+                "Collateral per": collateral[i],
+                "Premium per": premium[i],
+                "Total Premium": premium[i] * qty,
+                "Total Collateral": collateral[i] * qty
             })
-            total_premium += premium[i]
-            total_collateral += collateral[i]
 
     st.success(f"✅ Total Premium: ${total_premium} | 🔒 Collateral Used: ${total_collateral}")
     st.dataframe(pd.DataFrame(selected))
