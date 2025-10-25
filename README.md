@@ -29,7 +29,7 @@ Behind the scenes, it uses [PuLP](https://coin-or.github.io/pulp/) to solve the 
 
 1. **Clone this repository**
    ```bash
-   git clone https://github.com/yourusername/walk-options.git
+   git clone https://github.com/vttran4/walk-options.git
    cd walk-options
 
 
