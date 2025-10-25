@@ -29,8 +29,8 @@ Behind the scenes, it uses [PuLP](https://coin-or.github.io/pulp/) to solve the 
 
 1. **Clone this repository**
    ```bash
-   git clone https://github.com/yourusername/options-optimizer.git
-   cd options-optimizer
+   git clone https://github.com/yourusername/walk-options.git
+   cd walk-options
 
 
 2. **Create and activate a virtual environment**
