@@ -34,13 +34,15 @@ Behind the scenes, it uses [PuLP](https://coin-or.github.io/pulp/) to solve the 
 
 
 2. **Create and activate a virtual environment**
-   ```bash
-  python -m venv venv
-  source venv/bin/activate      # On macOS/Linux
-  venv\Scripts\activate         # On Windows
 
-4. **pip install -r requirements.txt**
 
-5. **Run the app**
+   python -m venv venv
+   source venv/bin/activate      # On macOS/Linux
+   venv\Scripts\activate         # On Windows
+
+
+3. **pip install -r requirements.txt**
+
+4. **Run the app**
 
    streamlit run app.py
