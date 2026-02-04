@@ -15,6 +15,14 @@ Behind the scenes, it uses [PuLP](https://coin-or.github.io/pulp/) to solve the 
 
 ---
 
+## 🖼️ App Screenshots
+
+![App screenshot 1](screenshots/app_screenshot1.png)
+![App screenshot 2](screenshots/app_screenshot2.png)
+![App screenshot 3](screenshots/app_screenshot3.png)
+
+---
+
 ## ⚙️ Tech Stack
 
 - 🐍 **Python 3.9+**
