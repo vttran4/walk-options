@@ -3,3 +3,7 @@ pulp
 pandas
 numpy
 openpyxl
+pytest
+fastapi
+uvicorn
+requests

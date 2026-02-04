@@ -1,6 +1,10 @@
-import streamlit as st
+import os
+
 import pandas as pd
-from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpInteger, value
+import requests
+import streamlit as st
+
+from core.validation import validate_inputs
 
 st.set_page_config(page_title="💃 Options Optimizer", layout="centered")
 
@@ -38,46 +42,34 @@ df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
 st.subheader("💰 Step 2: Set Your Collateral Limit")
 collateral_limit = st.number_input("Total Available Collateral", value=10430, step=100)
 
+# API endpoint (Phase 2)
+api_base_url = os.environ.get("OPTIMIZER_API_URL", "http://127.0.0.1:8000")
+
 # Step 3: Optimize
 if st.button("🚀 Step 3: Optimize!"):
     try:
-        df = df[~pd.isna(df["Collateral"])]
-        stocks = df["Stock"].tolist()
-        collateral = df["Collateral"].tolist()
-        premium = df["Premium"].tolist()
-
-        model = LpProblem("Maximize_Premium", LpMaximize)
-        x_vars = [LpVariable(f"x_{stock}", lowBound=0, cat=LpInteger) for stock in stocks]
-
-        model += lpSum([x_vars[i] * premium[i] for i in range(len(stocks))]), "Total_Premium"
-        model += lpSum([x_vars[i] * collateral[i] for i in range(len(stocks))]) <= collateral_limit, "Collateral_Limit"
-        model.solve()
-
-        # Results
-        selected = []
-        total_premium = 0
-        total_collateral = 0
-
-        for i, stock in enumerate(stocks):
-            qty = int(value(x_vars[i]))
-            if qty > 0:
-                total_premium += premium[i] * qty
-                total_collateral += collateral[i] * qty
-                selected.append({
-                    "Stock": stock,
-                    "Contracts": qty,
-                    "Collateral Each": f"${collateral[i]}",
-                    "Premium Each": f"${premium[i]}",
-                    "Total Collateral": f"${collateral[i] * qty}",
-                    "Total Premium": f"${premium[i] * qty}"
-                })
-
-        if selected:
-            st.success(f"🎯 **Total Premium:** ${total_premium}")
-            st.success(f"💅 **Collateral Used:** ${total_collateral}")
-            st.dataframe(pd.DataFrame(selected), use_container_width=True)
+        validation = validate_inputs(df)
+        if not validation.ok:
+            for msg in validation.errors:
+                st.error(f"❌ {msg}")
         else:
-            st.warning("⚠️ No contracts fit within your collateral limit. Try adjusting your values.")
+            payload = {
+                "rows": validation.df.to_dict(orient="records"),
+                "collateral_limit": collateral_limit,
+            }
+            resp = requests.post(f"{api_base_url}/optimize", json=payload, timeout=20)
+            if resp.status_code != 200:
+                st.error(f"❌ API error: {resp.text}")
+            else:
+                data = resp.json()
+                if data.get("selected"):
+                    st.success(f"🎯 **Total Premium:** ${data['total_premium']}")
+                    st.success(f"💅 **Collateral Used:** ${data['total_collateral']}")
+                    st.dataframe(pd.DataFrame(data["selected"]), use_container_width=True)
+                else:
+                    st.warning(
+                        "⚠️ No contracts fit within your collateral limit. Try adjusting your values."
+                    )
 
     except Exception as e:
         st.error(f"❌ Optimization failed: {e}")
