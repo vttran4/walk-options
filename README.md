@@ -44,6 +44,39 @@ Behind the scenes, it uses [PuLP](https://coin-or.github.io/pulp/) to solve the 
 
 ---
 
+## ✅ Phase 3 Highlights (Scenario Analysis)
+
+- Compare outcomes under ±10% and ±20% premium scenarios
+- Side-by-side table of total premium, collateral, and contracts
+- Auto-summary explaining sensitivity to premium changes
+- Charts for Total Premium and Total Collateral by scenario
+
+---
+
+## 📖 How to Read the Scenario Analysis
+
+Each row is a “what-if” case where premiums are adjusted:
+- **-20% Premium**: premiums are 20% lower than your inputs
+- **-10% Premium**: premiums are 10% lower
+- **Base**: your original inputs
+- **+10% Premium**: premiums are 10% higher
+- **+20% Premium**: premiums are 20% higher
+
+**Columns explained**
+- **Total Premium**: total premium earned under that scenario
+- **Total Collateral**: collateral used (should stay within your limit)
+- **Contracts Selected**: number of distinct contracts chosen
+
+**How to interpret quickly**
+- If Total Premium changes a lot across scenarios, results are sensitive to premium swings.
+- If Contracts Selected changes, the optimizer prefers different contracts under different pricing.
+
+**Charts**
+- The **Total Premium** chart shows how earnings change with premium swings.
+- The **Total Collateral** chart shows how much collateral gets used in each scenario.
+
+---
+
 ## 🚀 Setup & Installation
 
 1. **Clone this repository**
